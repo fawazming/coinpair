@@ -1,4 +1,27 @@
-export default [
+const URL = 'https://api.exchangerate-api.com/v4/latest/USD';
+
+function WriteToCache(url, data){ localStorage.setItem(url, JSON.stringify(data));
+}
+
+function ReadFromCache(url){console.log('coming from cache');return JSON.parse(localStorage.getItem(url)) || null; }
+
+// let ret = ; 
+
+let processed = [];
+if(ReadFromCache(URL) == null){
+   processed = fetch(URL).then(dt=>dt.json()).then(dtt => {
+      WriteToCache(URL, dtt);
+      console.log('coming from api')
+      return dtt})
+}else{
+   processed = ReadFromCache(URL)
+}
+
+export let pcrr = processed.rates;
+
+// console.log(pcrr);
+
+export const curr = [
     {
        "code":"AED",
        "name":"Arab Emirates Dirham",
@@ -941,3 +964,6 @@ export default [
        "display":1
     }
  ]
+
+// export curr;
+// export await pcrr;
